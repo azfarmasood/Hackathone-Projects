@@ -1,0 +1,86 @@
+import type { ProfileType } from "@/types";
+import { getProfile } from "@/sanity/sanity.query";
+import { BiEnvelope } from "react-icons/bi";
+import Image from "next/image";
+import Wrapper from "@/app/components/shared/Tools/Wrapper/Wrapper";
+import AboutData, { Experties } from "@/app/components/shared/Data/AboutData/AboutData";
+import Link from "next/link";
+
+const AboutTrack = async () => {
+  const profile: ProfileType[] = await getProfile();
+  return (
+    <Wrapper>
+      <main>
+        {profile && (
+          profile.map((data) => (
+            <div key={data._id} className="grid md:grid-cols-2 grid-cols-1  gap-x-6 lg:mt-28 md:justify-start justify-center md:items-start items-center md:text-start text-center md:mt-24 mt-20">
+              <div className="xl:max-w-2xl">
+                <div className="lg:order-none ">
+                  <h1 className="lg:text-4xl md:text-3xl sm:text-2xl text-xl lg:leading-3.2 basis-1/2 max-w-lg">
+                    I&apos;m {data.fullName} I live in {data.location}, Where I design this Website
+                  </h1>
+                  <div className="flex flex-col mt-4 font-bold text-lg">
+                    {
+                      AboutData.map((Data) => (
+                        <div key={Data.slug}>
+                          <h4 className="font-semibold md:text-3xl text-xl underline underline-offset-8 py-2">{Data.Title}</h4>
+                          <p className="font-bold md:text-lg text-sm whitespace-pre-line py-4">
+                            {Data.Description}
+                          </p>
+                            <p className="font-bold md:text-lg text-sm">
+                              {Data.SpanDiscription}
+                          </p>
+                        </div>
+                      ))
+                    }
+                    <div className="mt-10">
+                    {
+                      Experties.map((data) => (
+                        <div key={data.slug}>
+                          <h4 className="font-semibold md:text-4xl text-3xl underline underline-offset-8 py-2">{data.title}</h4>
+                        <p className="font-bold md:text-lg text-sm whitespace-pre-line py-4">
+                            {data.discription}
+                        </p>
+                        </div>
+                      ))
+                      }
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-3">
+              <ul className="flex flex-wrap items-center md:text-start text-center md:justify-start justify-center gap-6">
+              {data.skills && data.skills.map((skill, id) => (
+                <li
+                  key={id}
+                  className="dark:bg-primary bg-gray-400 md:text-lg text-sm border border-transparent hover:text-purple-500 duration-500 hover:border-zinc-700 rounded-md px-2 py-1"
+                >
+                  {skill}
+                </li>
+              ))}
+              </ul>
+            </div>
+              </div>
+              <div className="flex  flex-col justify-center items-center md:mt-0 mt-8">
+                <Image
+                  src={data.profileImage.image}
+                  alt={data.profileImage.alt}
+                  width={400}
+                  height={400}
+                  className="rounded-full"
+                />
+                 <div className="mt-4">
+                  <Link href={`mailto:${data.email}`} className="flex items-center gap-x-2 hover:text-purple-400 duration-300 md:py-0 py-4">
+                      <BiEnvelope className="text-lg" />
+                      {data.email}
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </main>
+    </Wrapper>
+  );
+};
+
+export default AboutTrack;

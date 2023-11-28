@@ -1,0 +1,42 @@
+import { getJob } from "@/sanity/sanity.query"
+import type { JobType } from "@/types"
+import Wrapper from "@/app/components/shared/Tools/Wrapper/Wrapper";
+import Image from "next/image"
+import Link from "next/link"
+
+const Job = async () => {
+    const job: JobType[] = await getJob() 
+    const Heading: string = "Learning Experience"
+  return (
+    <section className="mt-32">
+          <Wrapper>
+                  <div>
+                    <h2 className="font-bold md:text-4xl text-3xl md:text-start text-center">{Heading}</h2>
+              </div>
+              <div className="flex flex-col md:gap-y-12 md:text-start md:justify-start md:items-start text-center justify-center items-center">
+                  {
+                      job.map((Data) => (
+                          <div key={Data._id} className="md:max-w-2xl max-w-full flex mt-10 items-start  md:gap-x-6 gap-x-4 relative before:absolute before:bottom-0 before:top-4.5 before:left-7 before:w-.1 h-calc before:bg-zinc-800">
+                              <div className="flex">
+                                  <Link href={Data.url} rel="noreferrer noopener" className="rounded-md overflow-clip relative min-w-60 min-h-60">
+                                      <Image src={Data.logo} alt={`${Data.name} logo`} fill className="object-cover"/>
+                                  </Link>
+                              </div>
+                              <div className="flex flex-col md:items-start">
+                                  <h3 className="text-xl font-bold">{Data.name}</h3>
+                                  <p>{Data.jobTitle}</p>
+                                  <small className="text-sm text-zinc-500 mt-2 tracking-widest uppercase">
+                                      {Data.startDate.toString()} - {Data.endDate.toString()}
+                                  </small>
+                                  <p className="text-zinc-400 md:text-base text-sm my-4">{Data.description}</p>
+                              </div>
+                          </div>
+                      ))
+                  }
+              </div>
+          </Wrapper>
+    </section>
+  )
+}
+
+export default Job
