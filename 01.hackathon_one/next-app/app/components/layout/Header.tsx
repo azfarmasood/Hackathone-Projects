@@ -7,14 +7,25 @@ import HeaderData from "@/app/components/shared/Data/HeaderData/HeaderData";
 import { Navlinks } from "@/app/components/shared/Data/HeaderData/HeaderData";
 import DarkTheme from "@/app/components/shared/Tools/DarkMode/DarkTheme";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 const Header = () => {
+  const notForMobile = typeof window !== "undefined"
   const [isClicked, setisClicked] = useState(false);
   const HeaderToggle = () => {
     setisClicked(!isClicked);
   };
+  const Animation = {
+    notVisible: { opacity: 0, y:notForMobile && window.innerWidth >= 768 ? -50 : 0 },
+    visible: {
+      opacity: 1,
+      y:notForMobile && window.innerWidth >= 768 ? 0 : 0,
+      transition: { duration: notForMobile && window.innerWidth >= 768 ? 0.5 : 0.2 },
+    },
+  };
   return (
-    <header className="dark:border-b duration-500 sticky top-0 dark:border-zinc-800 border-b border-gray-50 z-50 backdrop backdrop-blur-md font-normal">
+    <motion.header className="dark:border-b sticky top-0 dark:border-zinc-800 border-b border-gray-50 
+    z-50 backdrop backdrop-blur-md font-normal" initial="notVisible" animate="visible" variants={Animation}>
       <div className="dark:bg-zinc-900">
         <Wrapper>
           <div className="flex items-center justify-between py-5">
@@ -93,7 +104,7 @@ const Header = () => {
           </div>
         )}
       </div>
-    </header>
+    </motion.header>
   );
 };
 
