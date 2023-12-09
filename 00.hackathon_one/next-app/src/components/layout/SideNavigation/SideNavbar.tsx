@@ -37,7 +37,7 @@ const SideNavBar = async () => {
                   className="w-full justify-start"
                   asChild
                 >
-                  <Link href={"/Gallery"}>
+                  <Link href={"/gallery"}>
                     <SingleImageSvg className="w-5 h-5 mr-2 dark:fill-white fill-black" />
                     Gallery
                   </Link>
@@ -47,7 +47,7 @@ const SideNavBar = async () => {
                   className="w-full justify-start"
                   asChild
                 >
-                  <Link href={"/Albums"}>
+                  <Link href={"/albums"}>
                     <GallerySvg className="w-5 h-5 mr-2 dark:fill-white fill-black" />
                     Albums
                   </Link>
@@ -61,7 +61,7 @@ const SideNavBar = async () => {
                       asChild
                       key={albums.path}
                     >
-                      <Link href={`/Albums/${albums.path}`}>
+                      <Link href={`/albums/${albums.path}`}>
                         <GallerySvg className="w-5 h-5 mr-2 dark:fill-white fill-black" />
                         {albums.name}
                       </Link>
@@ -74,7 +74,7 @@ const SideNavBar = async () => {
                   className="w-full justify-start"
                   asChild
                 >
-                  <Link href={"/Favourites"}>
+                  <Link href={"/favourites"}>
                     <HeartSvg className="w-5 h-5 mr-2" />
                     Favourites
                   </Link>
