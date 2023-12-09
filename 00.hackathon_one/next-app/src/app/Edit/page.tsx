@@ -1,25 +1,29 @@
-"use client"
+"use client";
 import Wrapper from "@/components/shared/Normal Tools/Wrapper/Wrapper";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CldImage } from "next-cloudinary";
-import { ThemeProvider,useTheme } from "next-themes";
+import { ThemeProvider, useTheme } from "next-themes";
 import { useState } from "react";
-const Editpage =  ({searchParams:{publicId}}: { searchParams: {publicId:string} }) => {
+const Editpage = ({
+  searchParams: { publicId },
+}: {
+  searchParams: { publicId: string };
+}) => {
   const [transform, setTranform] = useState<
     | undefined
     | "Add Gerative AI Fill"
-    | "blur"
-    | "grayscale"
-    | "pixelate"
+    | "effects"
+    | "Overlay"
+    | "restore"
     | "removeBackground"
     | "zoompan"
   >();
   const [prompt, setPrompt] = useState("");
   const [pendingPrompt, setPendingPrompt] = useState("");
   const { theme } = useTheme();
-  const Blur = "800"
+  const Blur = "800";
   return (
     <Wrapper>
       <ThemeProvider>
@@ -59,23 +63,23 @@ const Editpage =  ({searchParams:{publicId}}: { searchParams: {publicId:string} 
           <Button
             variant={theme === "dark" ? "outline" : "default"}
             className="uppercase font-bold md:text-xl text-base"
-            onClick={() => setTranform("blur")}
+            onClick={() => setTranform("effects")}
           >
-            Add Blur
+            Add effects
           </Button>
           <Button
             variant={theme === "dark" ? "outline" : "default"}
             className="uppercase font-bold md:text-xl text-base"
-            onClick={() => setTranform("grayscale")}
+            onClick={() => setTranform("Overlay")}
           >
-            Add GrayScale
+            Add Overlay
           </Button>
           <Button
             variant={theme === "dark" ? "outline" : "default"}
             className="uppercase font-bold md:text-xl text-base"
-            onClick={() => setTranform("pixelate")}
+            onClick={() => setTranform("restore")}
           >
-            Add pixelate
+            Add restore
           </Button>
           <Button
             variant={theme === "dark" ? "outline" : "default"}
@@ -115,31 +119,61 @@ const Editpage =  ({searchParams:{publicId}}: { searchParams: {publicId:string} 
               }}
             />
           )}
-          {transform === "blur" && (
+          {transform === "effects" && (
             <CldImage
-              src={publicId}
               width="500"
               height="400"
-              alt="image"
-              blur="800"
+              src={publicId}
+              effects={[
+                {
+                  background: "green",
+                },
+                {
+                  gradientFade: true,
+                },
+                {
+                  gradientFade: "symetric,x_0.5",
+                },
+              ]}
+              alt="Image"
             />
           )}
-          {transform === "grayscale" && (
+          {transform === "Overlay" && (
             <CldImage
-              src={publicId}
               width="500"
               height="400"
-              alt="image"
-              grayscale={true}
+              crop="fill"
+              src={publicId}
+              overlays={[
+                {
+                  publicId: { publicId },
+                  effects: [
+                    {
+                      crop: "fill",
+                      gravity: "auto",
+                      width: "500",
+                      height: "400",
+                    },
+                  ],
+                  appliedEffects: [
+                    {
+                      multiply: true,
+                    },
+                  ],
+                },
+              ]}
+              alt="Image"
             />
           )}
-          {transform === "pixelate" && (
+          {transform === "restore" && (
             <CldImage
               src={publicId}
-              width="500"
-              height="400"
-              alt="image"
-              pixelate={true}
+              width="960"
+              height="600"
+              crop="fill"
+              restore
+              sizes="100vw"
+              alt="Image"
             />
           )}
           {transform === "removeBackground" && (
