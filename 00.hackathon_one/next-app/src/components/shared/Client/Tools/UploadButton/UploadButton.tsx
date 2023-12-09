@@ -1,7 +1,14 @@
 "use client"
 import Wrapper from "@/components/shared/Normal Tools/Wrapper/Wrapper";
-import { CldUploadButton, CldImage, CldUploadWidgetResults } from "next-cloudinary";
+import { CldUploadButton, CldImage } from "next-cloudinary";
 import { useState } from "react";
+
+type Idprop = {
+  info: {
+    public_id: string;
+  };
+  event: "success"
+};
 
 const UploadButton = () => {
   const [imageId, setImageId] = useState("");
@@ -12,7 +19,7 @@ const UploadButton = () => {
             <div>
               <CldUploadButton
                 uploadPreset="ykg4xz3z"
-                onUpload={(result: CldUploadWidgetResults) => {
+                onUpload={(result: Idprop) => {
                   setImageId(result.info?.public_id);
                 }}
               />
