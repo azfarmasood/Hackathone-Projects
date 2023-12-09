@@ -23,7 +23,7 @@ export function AlbumCards({folder}: {folder:Albums}) {
       <CardContent></CardContent>
       <CardFooter className="flex justify-between font-bold">
         <Button asChild className="font-bold">
-          <Link href={`/Albums/${folder.name}`} className="font-bold ">View Albums</Link>
+          <Link href={`/albums/${folder.name}`} className="font-bold ">View Albums</Link>
         </Button>
       </CardFooter>
     </Card>
